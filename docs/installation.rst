@@ -48,7 +48,6 @@ These instructions are specific to Ubuntu Linux but will be similar for other UN
 
 .. _virtualenv: https://virtualenv.pypa.io/en/stable/
 
-
 ::
 
     $ pip install virtualenv
@@ -138,4 +137,3 @@ To run test (after you run ``make run``) use:
 ::
 
     $ make test
-

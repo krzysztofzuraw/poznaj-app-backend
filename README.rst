@@ -22,7 +22,6 @@ Full `installation`_ instructions.
 
 .. _installation: http://poznajwroclaw-backend.readthedocs.io/en/latest/installation.html
 
-
 To develop locally we use docker + docker compose. First make sure that you
 installed docker by following these instructions: `link <https://docker.github.io/engine/installation/>`_.
 Then run this command to run server & apply migrations.::
@@ -82,6 +81,7 @@ Credits
 1. `Cookiecutter-django`_
 2. `Cfgov-refresh`_
 3. `Open-source-project-template`_
+
 
 .. _Cookiecutter-django: https://github.com/pydanny/cookiecutter-django
 .. _Cfgov-refresh: https://github.com/cfpb/cfgov-refresh
