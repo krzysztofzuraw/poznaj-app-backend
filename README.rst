@@ -37,7 +37,6 @@ Documentation
 Documentation for this project is available in the `docs`_ directory and `online`_.
 
 .. _docs: https://github.com/kj-wroclaw/poznajwroclaw-backend/tree/master/docs
-
 .. _online: http://poznajwroclaw-backend.readthedocs.io/en/latest/index.html
 
 
@@ -66,14 +65,12 @@ Getting involved
 
 We welcome your feedback and contributions. See the `contribution guidelines`_ for more details.
 
-.. _contribution guidelines <https://github.com/kj-wroclaw/poznajwroclaw-backend/blob/master/.github/CONTRIBUTING.md>:
-
+.. _contribution guidelines <https://github.com/kj-wroclaw/poznajwroclaw-backend/blob/master/.github/CONTRIBUTING.md>
 
 License
 -------
 
 1. `LICENSE <https://github.com/kj-wroclaw/poznajwroclaw-backend/blob/master/LICENSE>`_
-
 
 Credits
 -------
