@@ -30,14 +30,20 @@ class TestStoriesViewSet(APITestCase):
                 ],
                 "title": self.story.title,
                 "description": self.story.description,
-                "duration": '{:02}:00:{:02}'.format(self.story.duration.days, self.story.duration.seconds)
+                "duration": '{:02}:00:{:02}'.format(
+                    self.story.duration.days, self.story.duration.seconds
+                )
             }]
         )
 
     def test_create_story(self):
         response = self.client.post(
             self.list_url,
-            data={'title': 'my_story', 'description': 'example_description', 'duration': '00:01:00'}
+            data={
+                'title': 'my_story',
+                'description': 'example_description',
+                'duration': '00:01:00'
+            }
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Story.objects.count(), 2)

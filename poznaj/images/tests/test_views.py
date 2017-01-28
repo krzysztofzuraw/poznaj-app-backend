@@ -9,10 +9,15 @@ from .factories import ImageFactory
 
 class TestImagesViewSet(APITestCase):
 
-    def setUp(self):
-        self.image = ImageFactory()
-        self.list_url = reverse('image-list')
-        self.detail_url = reverse('image-detail', kwargs={'pk': self.image.id})
+    @classmethod
+    def setUpClass(cls):
+        cls.image = ImageFactory()
+        cls.list_url = reverse('image-list')
+        cls.detail_url = reverse('image-detail', kwargs={'pk': cls.image.id})
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.image.image_file.delete()
 
     def test_get_all_images(self):
         response = self.client.get(self.list_url, format='json')
@@ -33,7 +38,9 @@ class TestImagesViewSet(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Image.objects.count(), 2)
-        self.assertEqual(Image.objects.get(title='example_image').title, 'example_image')
+        image = Image.objects.get(title='example_image')
+        self.assertEqual(image.title, 'example_image')
+        image.image_file.delete()
 
     def test_delete_image(self):
         response = self.client.delete(self.detail_url)

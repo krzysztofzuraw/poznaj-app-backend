@@ -10,11 +10,16 @@ from .factories import PointFactory
 
 class TestPointsViewSet(APITestCase):
 
-    def setUp(self):
-        self.image = ImageFactory()
-        self.point = PointFactory.create(images=(self.image,))
-        self.list_url = reverse('point-list')
-        self.detail_url = reverse('point-detail', kwargs={'pk': self.point.id})
+    @classmethod
+    def setUpClass(cls):
+        cls.image = ImageFactory()
+        cls.point = PointFactory.create(images=(cls.image,))
+        cls.list_url = reverse('point-list')
+        cls.detail_url = reverse('point-detail', kwargs={'pk': cls.point.id})
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.image.image_file.delete()
 
     def test_get_all_points(self):
         response = self.client.get(self.list_url, format='json')
