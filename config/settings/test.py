@@ -34,7 +34,7 @@ CACHES = {
 
 # TESTING
 # ------------------------------------------------------------------------------
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+TEST_RUNNER = 'config.tests_runners.TempMediaTestRunner'
 
 
 # PASSWORD HASHING
@@ -53,3 +53,5 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
         'django.template.loaders.app_directories.Loader',
     ]),
 ]
+# Turn off APP_DIRS
+TEMPLATES[0]['APP_DIRS'] = False
