@@ -1,6 +1,8 @@
+import json
+
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from test_plus.test import TestCase
 
 from poznaj.points.tests.factories import PointFactory
 from poznaj.stories.models import Story
@@ -8,13 +10,15 @@ from poznaj.stories.models import Story
 from .factories import StoryFactory
 
 
-class TestStoriesViewSet(APITestCase):
+class TestStoriesViewSet(TestCase):
 
     def setUp(self):
         self.point = PointFactory()
         self.story = StoryFactory.create(points=(self.point,))
         self.list_url = reverse('story-list')
         self.detail_url = reverse('story-detail', kwargs={'pk': self.story.id})
+        self.user = self.make_user('user_one')
+        self.client.login(username=self.user.username, password='password')
 
     def test_get_all_stories(self):
         response = self.client.get(self.list_url, format='json')
@@ -22,15 +26,15 @@ class TestStoriesViewSet(APITestCase):
         self.assertEqual(
             response.json(),
             [{
-                "id": self.story.id,
-                "points": [
-                    "http://testserver{}".format(
+                'id': self.story.id,
+                'points': [
+                    'http://testserver{}'.format(
                         reverse('point-detail', kwargs={'pk': self.point.id})
                     )
                 ],
-                "title": self.story.title,
-                "description": self.story.description,
-                "duration": '{:02}:00:{:02}'.format(
+                'title': self.story.title,
+                'description': self.story.description,
+                'duration': '{:02}:00:{:02}'.format(
                     self.story.duration.days, self.story.duration.seconds
                 )
             }]
@@ -59,7 +63,19 @@ class TestStoriesViewSet(APITestCase):
     def test_update_story(self):
         response = self.client.put(
             self.detail_url,
-            data={'title': 'new_title', 'description': 'new_description', 'duration': '01:00:00'}
+            data=json.dumps(
+                {
+                    'title': 'new_title',
+                    'description': 'new_description',
+                    'duration': '01:00:00',
+                    'points': [
+                        'http://testserver{}'.format(
+                            reverse('point-detail', kwargs={'pk': self.point.id})
+                        )
+                    ],
+                }
+            ),
+            content_type='application/json'
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Story.objects.count(), 1)

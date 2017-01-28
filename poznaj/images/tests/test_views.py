@@ -1,23 +1,25 @@
+import json
+
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from test_plus.test import TestCase
 
 from poznaj.images.models import Image
 
 from .factories import ImageFactory
 
 
-class TestImagesViewSet(APITestCase):
+class TestImagesViewSet(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        cls.image = ImageFactory()
-        cls.list_url = reverse('image-list')
-        cls.detail_url = reverse('image-detail', kwargs={'pk': cls.image.id})
+    def setUp(self):
+        self.image = ImageFactory()
+        self.list_url = reverse('image-list')
+        self.detail_url = reverse('image-detail', kwargs={'pk': self.image.id})
+        self.user = self.make_user('user_one')
+        self.client.login(username=self.user.username, password='password')
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.image.image_file.delete()
+    def tearDown(self):
+        self.image.image_file.delete()
 
     def test_get_all_images(self):
         response = self.client.get(self.list_url, format='json')
@@ -48,7 +50,11 @@ class TestImagesViewSet(APITestCase):
         self.assertEqual(Image.objects.count(), 0)
 
     def test_update_image(self):
-        response = self.client.put(self.detail_url, data={'title': 'new_title'})
+        response = self.client.put(
+            self.detail_url,
+            data=json.dumps({'title': 'new_title'}),
+            content_type='application/json'
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Image.objects.count(), 1)
         self.assertEqual(Image.objects.get().title, 'new_title')
