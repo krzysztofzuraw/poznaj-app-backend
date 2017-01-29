@@ -34,7 +34,7 @@ CACHES = {
 
 # TESTING
 # ------------------------------------------------------------------------------
-TEST_RUNNER = 'config.tests_runners.TempMediaTestRunner'
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 
 # PASSWORD HASHING
