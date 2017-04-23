@@ -70,7 +70,8 @@ AWS_HEADERS = {
     'Cache-Control': six.b('max-age=%d, s-maxage=%d, must-revalidate' % (
         AWS_EXPIRY, AWS_EXPIRY))
 }
-MEDIA_URL = "https://%s/" % (AWS_S3_CUSTOM_DOMAIN)
+MEDIA_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+
 
 # Static Assets
 # ------------------------
